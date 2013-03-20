@@ -1,0 +1,403 @@
+<section class="registerpage"> 
+    <div class="container">
+        <form method="post">
+            <div class="row">  
+                <div class="span6 align-right">
+            <?php echo $this->partial('slices/register/'.$this->promo_key.'.phtml'); ?>
+        </div>
+        <div class="span6">
+                <h4>Datos de Perfil</h4>
+                 <p>Tu nombre de usuario es lo que te va a identificar en todo el sitio, asi que elegilo con cuidado.</p>
+            <hr />
+
+                <div class="control-group">
+                    <label class="control-label"></label>
+                    <div class="controls">
+                        <input type="text" data-token="<?php echo $this->getToken('checkusername'); ?>" placeholder="Usuario" name="username" id="username" class=" span4">
+                        <p class="help-inline" style="display: none;" id="username_loading">
+                            <i class="icon-spinner icon-spin"> </i> Comprobando...
+                        </p>
+                        <p class="help-inline" style="display: none;" id="username_ok">
+                            <i class="icon-ok"> </i> Disponible!
+                        </p>
+                        <p class="help-inline" style="display: none;" id="username_fail">
+                            <i class="icon-remove-sign"> </i> No disponible
+                        </p>
+                        <p class="help-inline" style="display: none;" id="username_short">
+                            <i class="icon-remove-sign"> </i> Demasiado corto
+                        </p>
+                    </div>
+                </div>
+
+                  <div class="control-group">
+                    <label class="control-label"></label>
+                    <div class="controls">
+                        <input type="password" placeholder="Contraseña" name="password" id="password" class=" span4">
+                        <p class="help-inline" style="display: none;" id="password_short">
+                            <i class="icon-remove-sign"> </i> Demasiado corta
+                        </p>
+                    </div>
+                </div>
+
+                  <div class="control-group">
+                    <label class="control-label"></label>
+                    <div class="controls">
+                        <input type="password" placeholder="Confirmar contraseña" id="password_confirm" class=" span4">
+                        <p class="help-inline" style="display: none;" id="password_match">
+                            <i class="icon-ok"> </i> 
+                        </p>
+                        <p class="help-inline" style="display: none;" id="password_nomatch">
+                            <i class="icon-remove-sign"> </i> No coincide
+                        </p>
+                    </div>
+                </div>
+                                <hr />
+                <?php if($this->promo_key != 'profile'): ?>
+                                <h4>Datos personales</h4>
+                                <p>Estos datos solo los verán las personas que oferten en tus juegos o acepten algún intercambio. <b>NUNCA JAMÁS EN LA VIDA</b> compartiremos tus datos de ninguna otra manera.</p>
+                                <hr />
+
+                <div class="control-group">
+                    <label class="control-label"></label>
+                    <div class="controls">
+                        <input type="text" placeholder="Nombre y Apellido" name="full_name" class=" span4">
+                        <p class="help-block"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="text" placeholder="Correo Electrónico" name="email" id="email" class="span4">
+                        <p class="help-inline" style="display: none;" id="email_valid">
+                            <i class="icon-ok"> </i> 
+                        </p>
+                        <p class="help-inline" style="display: none;" id="email_invalid">
+                            <i class="icon-remove-sign"> </i> Invalida
+                        </p>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls-row">
+                        <input type="text" placeholder="Teléfono" name="phone_land" class="span2">
+                        <input type="text" placeholder="Celular" name="phone_mobile" class="span2">
+                        <p class="help-block"></p>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                    <select id="region" data-token="<?php echo $this->getToken('getcities'); ?>" class="span4">
+                        <option disabled="disabled" value="0" selected="selected">Provincia / Region</option>
+                        <?php foreach($this->regions as $region): ?>
+                            <option value="<?php echo $region->region_code; ?>">
+                                <?php echo utf8_encode($region->name); ?></option>
+                        <?php endforeach; ?>
+                    </select> 
+                    <i id="city_loading"  style="display: none; " class="icon-spinner icon-2x icon-spin"> </i>
+                       <p class="help-inline" style="display: none;" id="region_select">
+                            <i class="icon-remove-sign"> </i> Selecciona una
+                        </p>
+                    </div>
+                </div>
+
+                <div id="city_holder" style="display: none;" class="control-group">
+                    <div class="controls">
+                    <select id="city" name="city_id" class="span4">
+                        <option disabled="disabled" selected="selected">Ciudad / Partido</option>
+                    </select>
+                    <p class="help-inline" style="display: none;" id="city_select">
+                            <i class="icon-remove-sign"> </i> Selecciona una
+                        </p>
+                    </div>
+                </div>
+                <?php else: ?>
+                <div class="control-group">
+                    <label class="control-label"></label>
+                    <div class="controls">
+                        <input type="text" placeholder="PSN ID" name="psn_id" class=" span4">
+                        <p class="help-block"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label"></label>
+                    <div class="controls">
+                        <input type="text" placeholder="Gamertag" name="live_gamertag" class=" span4">
+                        <p class="help-block"></p>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                         <input type="text" placeholder="Correo Electrónico" name="email" id="email" class="span4">
+                        <p class="help-inline" style="display: none;" id="email_valid">
+                            <i class="icon-ok"> </i> 
+                        </p>
+                        <p class="help-inline" style="display: none;" id="email_invalid">
+                            <i class="icon-remove-sign"> </i> Invalida
+                        </p>
+                    </div>
+                </div>
+
+
+                <?php endif; ?>
+                
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="submit"  id="register" value="Registrarse" class="btn-danger btn btn-large">
+                        <?php if($this->promo_key == 'publish'): ?>
+                        <input type="submit" value="Ahora no" class="btn btn-large">
+                        <hr class="small"/> 
+                        <a href="<?php echo $this->url(array(), 'publishGame'); ?>">Publicar otro juego</a>
+                    <?php endif; ?>
+                    </div>
+                </div>
+                
+            </div>  
+
+    </div>
+    
+
+
+<script type="text/javascript">
+    var current_region = 0;
+
+    function updateRegion() {
+        setTimeout(function() {
+            var new_region = $('#region').val();
+            if(new_region != current_region)
+            {
+                current_region = new_region;
+                $('#city_loading').show();
+                $('#city_holder').hide();
+                $('#region').asyncToken({region_code: current_region},false);
+            }
+            }, 50);
+        $('#region_select').hide();
+    }
+
+    function fCl(json)
+    {
+        $('#city_loading').hide();
+        $('#city').html('');
+        var new_option = $('<option>');
+            new_option.attr('value', 0);
+            new_option.attr('disabled', 'disabled');
+            new_option.attr('selected', 'selected');
+            new_option.text('Selecciona una ciudad');
+            new_option.appendTo($('#city'));
+
+        $.each(json,function(key, city) {
+            var new_option = $('<option>');
+                new_option.attr('value', city.id);
+                new_option.text(city.name);
+
+            new_option.appendTo($('#city'));
+        });
+
+        $('#city_holder').show();
+
+    }
+
+    function fDl(json)
+    {
+        $('#department_loading').hide();
+        $('#department').html('');
+        var new_option = $('<option>');
+            new_option.attr('value', 0);
+            new_option.attr('disabled', 'disabled');
+            new_option.attr('selected', 'selected');
+            new_option.text('Selecciona una ciudad');
+            new_option.appendTo($('#department'));
+
+        $.each(json,function(key, city) {
+            var new_option = $('<option>');
+                new_option.attr('value', city.id);
+                new_option.text(city.name);
+
+            new_option.appendTo($('#department'));
+        });
+        $('#department_holder').show();
+    }
+
+    var last_username = '';
+    function checkUserAvailability()
+    {
+        setTimeout(function() {
+            current_username = $('#username').val();
+
+            if(current_username.length > 3)
+            {
+                $('#username_short').hide();
+                if(current_username != last_username)
+                {
+                    last_username = current_username;
+                    $('#username_ok').hide();
+                    $('#username_fail').hide();
+
+                    $('#username_loading').show();
+                    $('#username').asyncToken({username: current_username});    
+                }
+                
+            }
+            else
+            {
+                $('#username_short').show();
+                $('#username_ok').hide();
+                $('#username_fail').hide();
+            }
+        },50);
+    }
+
+    function uNo()
+    {
+        $('#username_loading').hide();
+        $('#username_fail').hide();
+        $('#username_ok').show();
+    }
+
+    function uNf()
+    {
+        $('#username_loading').hide();
+        $('#username_ok').hide();
+        $('#username_fail').show();
+    }
+
+    function cHp()
+    {
+            if($('#password').val().length < 5)
+            {
+                $('#password_short').show();
+            }
+            else
+            {
+                $('#password_short').hide();
+            }
+
+            if($('#password').val() != $('#password_confirm').val())
+            {
+                if($('#password_confirm').val().length > 0)
+                {
+                    $('#password_nomatch').show();
+                    $('#password_match').hide();    
+                }
+                else
+                {
+                    $('#password_nomatch').hide();
+                    $('#password_match').hide();    
+                }
+                
+            }
+            else
+            {
+                if($('#password_confirm').val().length == 0)
+                {
+                    $('#password_nomatch').hide();
+                    $('#password_match').hide();    
+                }
+                else
+                {
+                    $('#password_nomatch').hide();
+                    $('#password_match').show();        
+                }
+
+                
+            }        
+
+    }
+    function cHe()
+    {
+        var result = validateEmail($('#email').val());
+        if(result)
+        {
+            $('#email_valid').show();
+            $('#email_invalid').hide();
+        }
+        else
+        {
+            $('#email_invalid').show();
+            $('#email_valid').hide();
+        }
+    }
+
+    function vLf()
+    {
+        var result = true;
+
+        checkUserAvailability();
+
+        if(!$('#username_ok').is(':visible'))
+        {
+            result = false;
+        }
+
+        cHp();  
+
+        if($('#password_short').is(':visible'))
+        {
+            result = false;
+        }
+
+        if(!$('#password_match').is(':visible'))
+        {
+            result = false;
+        }
+
+        if($('#region').length > 0)
+        {
+            if($('#region').val() == null)
+            { 
+                $('#region_select').show();
+                result = false;
+            }    
+        }
+        
+        if($('#city').length > 0)
+        {
+            if($('#city').val() == null)
+            { 
+                $('#city_select').show();
+                result = false;
+            }
+        }
+        
+        cHe();
+        if(!$('#email_valid').is(':visible'))
+        {
+            result = false;
+
+        }
+
+        return result;
+
+
+    }
+
+    function updateCity() {
+        $('#city_select').hide();
+    }
+
+    $(function() {
+        $('#username').blur(checkUserAvailability);
+        $('#email').blur(cHe);
+        $('#password').blur(cHp);
+        $('#password_confirm').blur(cHp);
+        $('#city').change(updateCity);
+        $('#city').click(updateCity);
+        $('#city').keydown(updateCity);
+        $('#region').change(updateRegion);
+        $('#region').click(updateRegion);
+        $('#region').keydown(updateRegion);
+
+
+        $('#register').click(function(e) {
+            if(!vLf())
+            {
+                e.preventDefault();
+            }
+        });
+    });
+    
+
+</script>
+</form>
+</div>
+</section>

@@ -1,0 +1,359 @@
+<section class="publish">
+    <div class="container">
+    
+    <div class="row event_form">  
+    	<div class="span8">
+            <form method="post">
+    		<h2>Publicar juego</h2>
+            <p>Cargá los detalles de tu juego y publicalo para venta o canje en nuestro único sistema de compraventa. </p>
+    		<hr/>
+    		<div class="row-fluid" id="platform">
+    			<div class="span4">
+    				<h3>Plataforma</h3>
+    			</div>
+                <div class="span8" id="platform_select_container">
+    			<div id="platform_select" class="row-fluid">
+	    			<div <?php echo ($this->game_info && $this->game_info->getPlatformInfo()->id!=3)?'style="display: none; "':''; ?> data-platform-id="3" class="span6 boxauto platform_option center <?php echo ($this->game_info && $this->game_info->getPlatformInfo()->id==3)?'selected':''; ?>">
+	        				<img src="http://static.lasuricata.com/img/xbox360-logo.png" alt="Xbox 360" />
+	       			</div>
+	       			<div <?php echo ($this->game_info && $this->game_info->getPlatformInfo()->id!=2)?'style="display: none; "':''; ?> data-platform-id="2" class="span6 boxauto platform_option center <?php echo ($this->game_info && $this->game_info->getPlatformInfo()->id==2)?'selected':''; ?>">
+	        			<img src="http://static.lasuricata.com/img/ps3-logo.png" alt="Playstation 3" />
+	        		</div>
+        	   </div>
+    		      </div>
+              </div>
+              <hr/>
+    		<input type="hidden" id="platform_id" value="<?php echo ($this->game_info)?$this->game_info->getPlatformInfo()->id:''; ?>"/>
+
+    		<div class="row-fluid" id="game">
+    		<div class="span4">
+				<h3>Juego</h3>
+			</div>	
+			<div class="span8">
+                <div id="game_selector" <?php echo ($this->game_info)?'style="display: none;"':''; ?>>
+				<input class="input-takeall" id="add_game" placeholder="Elegí la plataforma" disabled="disabled" type="text" data-token="<?php echo $this->getToken('gamesuggest',array('list'=>$this->list)); ?>" />
+                <div id="loading_suggestions">
+                    Cargando sugerencias...
+                </div>
+                <ul id="suggestions">
+
+                </ul>
+                </div>
+                <div id="current_game">
+        <?php if($game = $this->game_info): ?>
+
+   <img class="pull-left" src="<?php echo $game->getCDNPath() . URL_RESOURCES_BOXART_100 . $game->getBoxArt(false)->source; ?>" alt="<?php echo $game->name; ?>" />
+        <p class="platform"><?php echo $game->getPlatformInfo()->name; ?></p>
+        <h4><?php echo $game->name; ?></h4>
+        <div class="links">
+            <a class="changegame" href="#">Cambiar juego</a>
+        </div>
+        <div class="clearfix"></div>
+        <?php endif; ?>
+                </div>
+
+                <input type="hidden" id="game_id" name="game_id" value="<?php echo ($this->game_info)?$this->game_info->id:''; ?>"/>
+			</div>
+            
+    		</div>
+
+    		
+            <div class="row-fluid" id="region">
+                <div class="span4">
+                    <h4>Región</h4>
+                </div>
+                <div class="span8">
+                    <hr/>
+                <div class="row-fluid">
+                    <div class="span3 boxauto region_option center" data-value="1" >
+                            Region Free
+                    </div>
+                    <div class="span3 boxauto region_option center" data-value="2">
+                            NTSC/U <br/> Zona 1
+                    </div>
+                    <div class="span3 boxauto region_option center" data-value="4">
+                            PAL <br/> Zona 2
+                    </div>
+                    <div class="span3 boxauto region_option center" data-value="3">
+                            NTSC/J <br/> Zona 3
+                    </div>
+                    
+                </div>
+
+                <input type="hidden" name="game_region" value="" id="game_region" />
+            </div>
+            
+                </div>
+            
+            
+
+            <div class="row-fluid" id="game_condition">
+                <div class="span4">
+                    <h4>Estado</h4>
+                </div>
+                <div style="-moz-user-select: none;" class="span8">
+                    <hr />
+                    
+
+            
+                            
+                
+                <ul id="disc_status">
+                <li id="condition_10"><div class="game_class class10">S</div><span class="class_description class10">Nuevo. Celofan cerrado y faja de seguridad. </span></li>
+                <li id="condition_9"><div class="game_class class9">A+</div><span class="class_description">Usado igual a nuevo. Todos los manuales y folletos.</span></li>
+                <li id="condition_8"><div class="game_class class8">A</div><span class="class_description">Usado igual a nuevo. Sin manuales o en mal estado.</span></li>
+                <li id="condition_7"><div class="game_class class7">B</div><span class="class_description">El disco impecable, caja regular. Todos los manuales.</span></li>
+                <li id="condition_6"><div class="game_class class6">C</div><span class="class_description">El disco impecable, caja regular. Sin los manuales.</span></li>
+                <li id="condition_5"><div class="game_class class5">D</div><span class="class_description">El disco impecable, sin caja o sin caratula.</span></li>
+                <li id="condition_4"><div class="game_class class4">E</div><span class="class_description">El disco tiene rayas, pero funciona perfectamente.</span></li>
+                <li id="condition_3"><div class="game_class class3">F</div><span class="class_description">El disco y la caja en regular estado, funcionando.</span></li>
+                <li id="condition_2"><div class="game_class class2">F-</div><span class="class_description">El disco esta rayado y a en ocasiones falla al leerlo.</span></li>
+                <li id="condition_1"><div class="game_class class1">X</div><span class="class_description">El disco es ilegible, solo para uso decorativo. :)</span></li>
+                <li id="condition_0"><div class="game_class class0">?</div><span class="class_description">Indicá el estado usando el deslizador.</span></li>
+
+                </ul>
+                <input type="hidden" name="game_condition" value="<?php ($this->offer_info)?$this->offer_info->game_condition:''?>" id="game_condition_value" />
+            
+                        <div class="slider-container">
+            <p class="center">Desliza el cursor para indicar el estado</p>
+                    <div id="smart-slider"></div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div id="sale_options">
+                <hr />
+              <div class="row-fluid" id="sale_main">
+                <div class="span4">
+                    <h3>Venta</h3>
+                </div>
+                <div class="span8">
+                    <label class="checkbox ">
+                      <input type="checkbox" name="sale_enabled" <?php echo ($this->offer_info&&$this->offer_info->sale_enabled)?'checked="checked"':''?> id="sale_enabled" value="1">
+                      Publicar este juego para venta
+                    </label>
+                </div>
+            </div>
+            <div class="row-fluid" id="price"> 
+                <div class="span4">
+                    <h4>Precio</h4>
+                </div>
+                <div class="span8">
+                      <hr/>
+                      <div class="input-prepend input-append">
+                          <span class="add-on">$</span>
+                          <input class="input-small"  name="sale_price" value="<?php echo ($this->offer_info)?$this->offer_info->sale_price:''?>" type="text">
+                          <span class="add-on"> Pesos Argentinos (ARS)</span>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div id="exchange_options">
+            <hr/>
+              <div class="row-fluid" id="exchange_main">
+                <div class="span4">
+                    <h3>Intercambio</h3>
+                </div>
+                <div class="span8">
+                    <label class="checkbox ">
+                      <input type="checkbox" name="exchange_enabled" <?php echo ($this->offer_info&&$this->offer_info->sale_enabled)?'checked="checked"':''?> id="exchange_enabled" value="1">
+                      Publicar este juego para intercambio
+                    </label>
+                    
+                </div>
+            </div>
+        </div>
+        <div id="confirm_sale">
+            <hr/>
+            <div class="row-fluid">
+            <div class="span4">
+                </div>
+                <div class="span8">
+            <input id="publish" value="Publicar" type="submit" class="btn btn-primary btn" />
+            <button class="btn">
+                Descartar
+            </button>
+        </div>
+        </div>
+
+
+        </div>
+        </form>
+        </div>
+        <div class="span4">
+                    <?php echo $this->partial('slices/widgets/suggestion_side.phtml'); ?>
+        </div>
+    </div>
+    
+    </div>
+</section>
+
+<script type="text/javascript">
+$(function() {
+
+    $('#price').slideUp();
+
+ var acto;
+
+  var condition_value = 0;
+    $('#disc_status').children().hide();
+    $('#condition_'+condition_value).show();
+    $('#smart-slider').slider({animate: true, min:0, max:10,step:1,change:function(event, ui) {
+        
+        $('#disc_status').children().each(function(key, object) {
+            $(this).hide();
+        });
+    $('#condition_'+ui.value).show();
+    $('#game_condition_value').val(ui.value);
+    event.preventDefault();
+    }});
+    /*$('#smart-slider').strackbar({ callback: function(value)
+{
+
+    
+*/
+
+$('#publish').click(function(e) {
+    console.log($('#game_id').val());
+
+    if($('#platform_id').val() == '')
+    {
+        $('#platform_select_container').tooltip({ title: 'Seleccioná una plataforma', trigger: 'manual' });
+        $('#platform_select_container').tooltip('show');
+        $('#platform_select_container').focus();
+        setTimeout(function() { $('#platform_select_container').tooltip('hide'); }, 3000);
+
+        e.preventDefault();
+        return false;
+
+        e.preventDefault();
+        return false;
+    }
+
+    if($('#game_id').val() == '')
+    {
+        $('#game_selector').tooltip({ title: 'Seleccioná un juego', trigger: 'manual' });
+        $('#game_selector').tooltip('show');
+        $('#game_selector').focus();
+        setTimeout(function() { $('#game_selector').tooltip('hide'); }, 3000);
+
+        e.preventDefault();
+        return false;
+    }
+
+    if($('#game_region').val() == '')
+    {
+
+    }
+
+    
+});
+
+$('#loading_suggestions').hide();
+
+ $('.region_option').each(function() {
+    $(this).click(function(e) {
+        var region = $(this).attr('data-value');
+        $('.region_option').removeClass('selected');
+        $(this).addClass('selected');
+        $('#game_region').val(region);
+    })
+ });
+
+ $('.platform_option').each(function() {
+        $(this).click(function(e) {
+            $('#platform_select_container').tooltip('hide');
+            var platform_id = $(this).attr('data-platform-id');
+            $('.platform_option').removeClass('selected');
+            $('#add_game').removeAttr('disabled');
+            $('#add_game').attr('placeholder', 'Escribí el nombre del juego')
+            $(this).addClass('selected');
+            $('#platform_id').val(platform_id);
+            if($('#add_game').val() != '')
+            {
+                laststring = "";
+                $('#add_game').trigger('keydown');
+            }
+            $('#add_game').focus();
+            e.preventDefault();
+        });
+    });
+
+ $('#sale_enabled').click(function(e) {
+    if($(this).is(':checked'))
+    {
+        $('#price').slideDown();
+    }
+    else
+    {
+        $('#price').slideUp();
+    }
+ });
+
+
+ $('.changegame').live('click', function(e) {
+        e.preventDefault();
+        $('.boxauto').show();
+        $('#current_game').html('');
+        $('#game_selector').show();
+        $('#game_id').val('');
+        $('.platform_option').removeClass('selected');
+        $('#add_game').attr('disabled', 'disabled');
+    });
+ $('.use_suggestion').live('click', function() {
+    var container = $(this).parent().parent();
+    var game_id = $(this).attr('data-game-id');
+    $(this).remove();
+    $('#current_game').html(container.html());
+    $('#region').slideDown();
+    $('.platform_option').each(function() {
+        if($(this).hasClass('selected') == false)
+        {
+            $(this).hide();
+        }
+    });
+
+    var link = $('<a>');
+        link.attr('href', '#');
+        link.text('Cambiar juego');
+        link.addClass('changegame');
+        link.appendTo($('#current_game').children('.links'));
+        
+
+    $('#game_id').val(game_id);
+    $('#game_selector').hide();
+    $('#add_game').val('');
+    $('#suggestions').html('');
+    
+ });
+
+    var laststring = "";
+    $('#add_game').keydown(function(e) {
+            $('#game_selector').tooltip('hide');
+            clearTimeout(acto);
+            object = $(this);
+            acto = setTimeout(function() {
+                var newstring = $('#add_game').val();
+                if(newstring.length > 0)
+                {
+                    if(laststring != newstring)
+                    {
+                    object.asyncToken({ platform_id: $('#platform_id').val(), string: object.val() },false, function() {  $('#loading_suggestions').slideDown(); $('.suggestion').remove(); }, function() { $('#loading_suggestions').hide(); });
+                        laststring = $('#add_game').val();
+                    }    
+                }
+                else
+                {
+                    $('.suggestion').remove();
+                }
+            },350);
+            
+        
+    });
+
+
+});
+   
+</script>

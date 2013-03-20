@@ -1,0 +1,157 @@
+<section>
+	<div class="container">
+		<div class="row-fluid">
+			<div class="span7">
+				<img src="/img/world-dots.jpg" alt="Seleccione su ubicación">
+			</div>
+			<div class="span5">
+				<h2>
+					¿Donde estás?
+				</h2>
+				<p>
+					Para poder traerte resultados más relevantes, necesitamos que nos indiques tu ubicación. </p>
+
+				<p><small>A partir del 2 de Febrero de 2013, es un dato obligatorio para poder participar del sitio. <b>Todas las publicaciones que carezcan de ubicación dejarán de ser publicadas a partir del 01/03/2013</b>. </p>
+
+				<p>Si tenés dudas consultá las <a href="<?php echo $this->url(array(), 'privacyPolicy'); ?>">políticas de privacidad</a>.</small>
+				</p>
+				<hr class="dots" />
+				        <form method="post">
+
+				 <div class="control-group">
+                    <div class="controls">
+                      <div class="control-group">
+                    <div class="controls">
+                    <select id="region" data-token="<?php echo $this->getToken('getcities'); ?>" class="span11">
+                        <option disabled="disabled" value="0" selected="selected">Provincia / Region</option>
+                        <?php foreach($this->regions as $region): ?>
+                            <option value="<?php echo $region->region_code; ?>">
+                                <?php echo utf8_encode($region->name); ?></option>
+                        <?php endforeach; ?>
+                    </select> 
+                    <i id="city_loading"  style="display: none; " class="icon-spinner icon-2x icon-spin"> </i>
+                       <p class="help-inline" style="display: none;" id="region_select">
+                            <i class="icon-remove-sign"> </i> Selecciona una
+                        </p>
+                    </div>
+                </div>
+
+                <div id="city_holder" style="display: none;" class="control-group">
+                    <div class="controls">
+                    <select id="city" name="city_id" class="span11">
+                        <option disabled="disabled" selected="selected">Ciudad / Partido</option>
+                    </select>
+                    <p class="help-inline" style="display: none;" id="city_select">
+                            <i class="icon-remove-sign"> </i> Selecciona una
+                        </p>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <input type="submit"  id="save" value="Guardar" class="btn-danger btn btn-large">
+                    </div>
+                </div>
+            </form>
+
+			</div>
+		</div>
+
+	</div>
+	
+</section>
+
+<script type="text/javascript">
+     var current_region = 0;
+
+    function updateRegion() {
+        setTimeout(function() {
+            var new_region = $('#region').val();
+            if(new_region != current_region)
+            {
+                current_region = new_region;
+                $('#city_loading').show();
+                $('#city_holder').hide();
+                $('#region').asyncToken({region_code: current_region},false);
+            }
+            }, 50);
+        $('#region_select').hide();
+    }
+
+    function fCl(json)
+    {
+        $('#city_loading').hide();
+        $('#city').html('');
+        var new_option = $('<option>');
+            new_option.attr('value', 0);
+            new_option.attr('disabled', 'disabled');
+            new_option.attr('selected', 'selected');
+            new_option.text('Selecciona una ciudad');
+            new_option.appendTo($('#city'));
+
+        $.each(json,function(key, city) {
+            var new_option = $('<option>');
+                new_option.attr('value', city.id);
+                new_option.text(city.name);
+
+            new_option.appendTo($('#city'));
+        });
+
+        $('#city_holder').show();
+
+    }
+
+    function vLf()
+    {
+        var result = true;
+
+
+
+        if($('#region').length > 0)
+        {
+            if($('#region').val() == null)
+            { 
+                $('#region_select').show();
+                result = false;
+            }    
+        }
+        
+        if($('#city').length > 0)
+        {
+            if($('#city').val() == null)
+            { 
+                $('#city_select').show();
+                result = false;
+            }
+        }
+        
+
+        return result;
+
+
+    }
+
+    function updateCity() {
+        $('#city_select').hide();
+    }
+
+    $(function() {
+        $('#city').change(updateCity);
+        $('#city').click(updateCity);
+        $('#city').keydown(updateCity);
+        $('#region').change(updateRegion);
+        $('#region').click(updateRegion);
+        $('#region').keydown(updateRegion);
+
+
+        $('#register').click(function(e) {
+            if(!vLf())
+            {
+                e.preventDefault();
+            }
+        });
+    });
+    
+
+
+</script>

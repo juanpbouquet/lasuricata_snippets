@@ -1,0 +1,269 @@
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1&appId=347792438610372";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+ <?php $this->headLink()->appendStylesheet('/css/item.css'); ?>
+
+ <section class="newdetail" itemscope itemtype="http://schema.org/Product">
+  <div class="gamebackground" style="background: url('<?php echo $this->renderImage('backdrop', $this->game_info->getBackdrop(), array('justsource'=>true)); ?>') no-repeat center top; 
+ -webkit-background-size: cover;
+ -moz-background-size: cover;
+ -o-background-size: cover;
+ background-size: cover;">
+ <?php if($this->loginInfo()->allow_editgame): ?>
+ <div class="admin_pane">
+  <div class="container">
+    <b>Administración</b> 
+
+    <a href="#" class="btn btn-link tokenLink" data-token="<?php echo $this->getToken('editgame', array('game_id'=>$this->game_info->id)); ?>">
+      <i class="icon icon-edit"></i> Editar Información
+    </a>
+
+    <a href="#" class="btn btn-link tokenLink" data-token="<?php echo $this->getToken('uploader', array('game_id'=>$this->game_info->id, 'identifier'=>'splash', 'callback'=>'alert("lala")')); ?>">
+      <i class="icon icon-picture"></i> Editar portada
+    </a>
+
+    <a href="#" class="btn btn-link tokenLink" data-token="<?php echo $this->getToken('addvideo', array('game_id'=>$this->game_info->id)); ?>">
+      <i class="icon icon-film"></i> Cargar video
+    </a>
+
+    <a href="#" class="btn btn-link tokenLink" data-token="<?php echo $this->getToken('uploader', array('game_id'=>$this->game_info->id, 'identifier'=>'splash', 'callback'=>'alert("lala")')); ?>">
+      <i class="icon icon-bar-chart"></i> Estadísticas
+    </a>
+
+
+
+  </div>
+  
+  </div>
+<?php endif; ?>
+ <div class="game_info">
+  <div class="container">
+     <?php echo $this->renderImage('boxart100', $this->game_info->getBoxArt(), array('class'=>'boxart')); ?>
+    <div class="basicdata">
+      <h1 itemprop="name" class="center"><?php echo $this->game_info->name; ?></h1>
+      <h2 class="center"><?php echo $this->game_info->getPlatformInfo()->name; ?></h2>
+
+      <?php /* User Ratings */ ?>
+      <div class="rating" itemprop="aggregateRating"
+    itemscope itemtype="http://schema.org/AggregateRating">
+        <meta itemprop="worstRating" content="1">
+        <meta itemprop="bestRating" content="5">
+
+        <div class="rating_text">
+          Puntuación 
+        </div>
+        <div data-token="<?php echo $this->getToken('rategame',array('game_id'=>$this->game_info->id));?>" id="rating" data-rating="<?php echo $this->game_info->getUserRating(); ?>" class="star-container"></div>
+          <?php if(count($this->game_info->getUserRatings())): ?>
+            <div class="rating_result" itemprop="ratingValue">
+              <?php echo $this->game_info->getUserRating(); ?>
+            </div>
+            <div class="clearfix"></div>
+            <div class="">Basada en el voto de <span itemprop="reviewCount"><?php echo count($this->game_info->getUserRatings()); ?></span> jugadores
+          </div>
+          <?php else: ?>
+          <div class="clearfix"></div>
+          <div class="">
+            Sé el primero en puntuar <?php echo $this->game_info->name; ?>
+          </div>
+          <?php endif; ?>
+
+          
+        <?php if(!$this->loginInfo()->hasRated($this->game_info->id)): ?>
+          <div id="rating_result" class="smalltext">
+            Clasificá este juego haciendo click en las estrellas
+          </div>
+        <?php endif; ?>
+        </div>
+        <?php /* End User Ratings */ ?>
+
+    </div>
+    <div class="buttons">
+      <a href="#" class="btn btn-large">
+        <div class="text">
+          Quiero este juego
+        </div>
+        <div class="description">
+          Agregar a mis favoritos
+        </div>
+      </a>
+      <a href="#" class="btn btn-danger btn-large">
+        <div class="text">
+          Ya tengo este juego
+        </div>
+        <div class="description">
+          Agregar a mi lista de juegos
+        </div>
+      </a>
+    </div>
+  </div>  
+</div>
+<div class="mediacenter">
+  <div class="container">
+    <?php $videos = $this->game_info->getYtVideos(); ?>
+      <?php if(count($videos)): ?>
+            <iframe width="500" height="281" src="http://www.youtube.com/embed/<?php echo $videos[0]->source; ?>?autoplay=0&showinfo=0&iv_load_policy=3&controls=3" frameborder="0" allowfullscreen></iframe>        
+      <?php endif; ?>    
+      <?php if($this->game_info->description): ?>
+    <h3>Ficha Técnica</h3>
+    <p itemprop="description">
+      <?php echo $this->game_info->description; ?>
+    </p>
+    <?php endif; ?>
+    <!-- p>
+      <b>Desarrollador</b> Ubisoft Montreal<br/>
+      <b>Publisher</b> Ubisoft<br/>
+      <b>Fecha de Lanzamiento</b> 13/05/2012<br/></p -->
+      <?php if($this->game_info->esrb_rating): ?>
+      <div class="contentrating">
+
+        <img alt="<?php echo $this->game_info->getRating(1)->name; ?>" class="ratingLogo" src="http://static.lasuricata.com/<?php echo $this->game_info->getRating(1)->image; ?>" title="<?php echo $this->game_info->getRating(1)->name; ?>">
+        <!-- ul id="ratingDescriptors"><li>Escenas sangrientas</li>
+          <li>Violencia explícita</li>
+          <li>Lenguaje soez</li>
+          <li>Uso de drogas</li>
+          <li>Contenido sexual</li>
+        </ul -->
+
+      </div>
+      <?php endif; ?>
+
+    </div>
+  </div>
+  <div class="socialshare">
+    <div class="container">
+      <div class="fb-like" data-href="<?php echo $this->game_info->getLink(); ?>" data-send="true" data-width="450" data-show-faces="false" data-font="arial" data-colorscheme="dark"></div>
+    </div>
+  </div>
+  <div class="heading">
+    <div class="container">
+      <div class="row-fluid">
+        <div class="span8">
+          <i class="icon-chevron-down"></i> Ofertas Disponibles    
+        </div>
+        <div class="span4">
+          <i class="icon-chevron-down"></i> Jugadores Registrados    
+        </div>
+      </div>  
+    </div>
+  </div>
+
+<div class="gameusers">
+<div class="container">
+  <div class="row-fluid">
+    <div class="span8">
+         <ul class="offerlist box-container">
+              <?php $game = $this->game_info; ?>
+              <?php foreach ($this->game_info->getOffers() as $offer): ?>
+                <?php if($offer->sale_enabled) { $schemaoffer = true; } else { $schemaoffer = false; } ?>
+                <li class="offer_item">
+                  
+                  <div class="user">
+                    
+                       <?php echo $this->renderImage('profilehome', $offer->getUser()->getProfilePic(), array()); ?>
+                    
+                  </div>
+            
+                  <div class="gamelist_item">
+                    <small><?php echo $offer->getUser()->getFilteredLocation(); ?></small>
+                    <h4><?php echo $offer->getUser()->username; ?></h4> 
+                    
+                      <div class="price">
+                        <?php if($offer->game_condition == 10): ?>
+                        <small>NUEVO</small>
+                        <?php else: ?>
+                        <small>USADO</small>
+                        <?php endif; ?> <b>$<?php echo $offer->sale_price; ?></b>
+                      </div>
+
+                      <?php if($offer->exchange_enabled): ?>
+              
+                    <div class="price">
+                      <b><i class="icon icon-ok-sign"></i> Acepto canjes</b>
+                    </div>
+                    
+                    <?php endif; ?>
+                   
+               </div>
+               <div class="item_info status center">
+                    <div title="<?php echo $this->getConditionText($offer->game_condition); ?>" class="game_class game_class_badge game_class_medium showtooltip class<?php echo $offer->game_condition; ?>"><?php echo $this->getConditionLetter($offer->game_condition); ?>
+                    <div class="region">
+                      <?php echo $this->getRegionName($offer->game_region, $offer->getGame()->getPlatformInfo()->id); ?>
+                      </div>
+                    </div>
+                </div>
+
+                                 <div class="item_info">
+                                  <a href="#" class="btn btn-mini btn-link btn-block tokenLink" data-token="<?php echo $this->getToken('message',array('game_id'=>$offer->getGame()->id, 'user_id'=>$offer->getUser()->id)); ?>"><i class="icon-envelope"></i> Enviar mensaje</a>
+                                  <?php if(false && $offer->sale_enabled): ?>
+                                  <a href="#" class="btn btn-mini btn-link  btn-block"><i class="icon-shopping-cart"></i> Comprar</a>
+                                  <?php endif; ?>
+                                  <?php if($offer->exchange_enabled): ?>
+                                  <a href="#" class="btn btn-mini btn-link btn-block tokenLink" data-token="<?php echo $this->getToken('exchange',array('game_id'=>$offer->getGame()->id, 'user_id'=>$offer->getUser()->id)); ?>"><i class="icon-exchange"></i> Intercambiar</a>
+                                  <?php endif; ?>
+                                 </div>
+                </li>
+              <?php endforeach; ?>
+            </ul>
+    </div>
+        <div class="span4">
+        <?php $users = $this->game_info->getPlayers(); ?>
+
+                  <?php $count = 0; ?>
+                  <?php foreach($users as $user): ?>
+                  <div class="row-fluid playerdisplay">
+                    <?php $count++; ?>
+                    <div class="span2">
+                      <div class="playerbox" style="margin-top: 3px;" title="<?php echo $user->username; ?> <?php echo ($user->psn_id!='')?'(PSN: '.$user->psn_id.')':''; ?> <?php echo ($user->live_gamertag!='')?'(GT: '.$user->live_gamertag.')':''; ?>">
+                                  <?php echo $this->renderImage('profilehome', $user->getProfilePic(), array('class'=>'fullwidth')); ?>
+                      </div>
+                    </div>
+                    <div class="span10 playerinfo">
+                      <h5><?php echo $user->username; ?></h5>
+                      <?php if($user->psn_id!=''): ?>
+                      <div class="usertag"><img src="/img/psn_id_small.png" alt="Playstation Netowrk ID" /><?php echo $user->psn_id; ?></div>
+                      <?php endif; ?>
+                      <?php if($user->live_gamertag!=''): ?>
+                      <div class="usertag"><img src="/img/icon_xbox.gif" alt="Xbox Live Gamertag" /><?php echo $user->live_gamertag; ?></div>
+                      <?php endif; ?>
+                    </div>
+                    </div>
+                  <?php endforeach; ?>
+          
+
+        </div></div>
+      </div>
+  </div>  
+</section>
+
+
+<script type="text/javascript">
+$(function() { 
+  $('#rating').raty({
+    path: '/img/',
+    half: true,
+    <?php if($this->loginInfo()->hasRated($this->game_info->id)): ?>
+    readOnly: true, 
+    <?php endif; ?>
+    halfShow: true,
+    hints: ['Horrible', 'Malo', 'Regular', 'Bueno', 'El mejor'],
+    click: function(votescore, evt) {
+      $('#rating_result').text('Gracias por tu opinion!');
+      $(this).asyncToken({rating_value:votescore}, false);
+    },
+    score: function() {
+      return $(this).attr('data-rating');
+    }
+
+  });
+
+
+  
+})
+
+</script>
